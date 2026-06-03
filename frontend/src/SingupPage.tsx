@@ -4,6 +4,7 @@ import type { User } from './types/index.ts';
 
 interface SignupPageProps {
   onSwitchToLogin: () => void;
+  onSignupSuccess?: () => void;
 }
 
 const roles: { value: User['role']; label: string; icon: string }[] = [
@@ -13,7 +14,7 @@ const roles: { value: User['role']; label: string; icon: string }[] = [
   { value: 'contributor', label: 'Open Source Contributor', icon: '🌍' },
 ];
 
-const SignupPage: React.FC<SignupPageProps> = ({ onSwitchToLogin }) => {
+const SignupPage: React.FC<SignupPageProps> = ({ onSwitchToLogin, onSignupSuccess }) => {
   const { signup } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -33,6 +34,7 @@ const SignupPage: React.FC<SignupPageProps> = ({ onSwitchToLogin }) => {
     if (password.length < 8) { setError('Password must be at least 8 characters'); return; }
     setLoading(true); setError('');
     await signup(name, email, password, role);
+    onSignupSuccess?.();
     setLoading(false);
   };
 

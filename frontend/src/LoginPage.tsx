@@ -3,9 +3,10 @@ import { useAuth } from './hooks/useAuth.ts';
 
 interface LoginPageProps {
   onSwitchToSignup: () => void;
+  onLoginSuccess?: () => void;
 }
 
-const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToSignup }) => {
+const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToSignup, onLoginSuccess }) => {
   const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,7 +17,11 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToSignup }) => {
     if (!email || !password) { setError('All fields required'); return; }
     setLoading(true); setError('');
     const ok = await login(email, password);
-    if (!ok) setError('Invalid credentials');
+    if (ok) {
+      onLoginSuccess?.();
+    } else {
+      setError('Invalid credentials');
+    }
     setLoading(false);
   };
 
