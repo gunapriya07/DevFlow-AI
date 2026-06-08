@@ -15,12 +15,17 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToSignup, onLoginSuccess 
 
   const handleSubmit = async () => {
     if (!email || !password) { setError('All fields required'); return; }
-    setLoading(true); setError('');
-    const ok = await login(email, password);
-    if (ok) {
-      onLoginSuccess?.();
-    } else {
-      setError('Invalid credentials');
+    setLoading(true); 
+    setError('');
+    try {
+      const ok = await login(email, password);
+      if (ok) {
+        onLoginSuccess?.();
+      } else {
+        setError('Invalid email or password');
+      }
+    } catch (err: any) {
+      setError(err.message || 'Login failed');
     }
     setLoading(false);
   };
