@@ -32,9 +32,14 @@ const SignupPage: React.FC<SignupPageProps> = ({ onSwitchToLogin, onSignupSucces
   const handleSubmit = async () => {
     if (!password) { setError('Password is required'); return; }
     if (password.length < 8) { setError('Password must be at least 8 characters'); return; }
-    setLoading(true); setError('');
-    await signup(name, email, password, role);
-    onSignupSuccess?.();
+    setLoading(true); 
+    setError('');
+    try {
+      await signup(name, email, password, role);
+      onSignupSuccess?.();
+    } catch (err: any) {
+      setError(err.message || 'Signup failed');
+    }
     setLoading(false);
   };
 
