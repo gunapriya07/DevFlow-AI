@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './App.css'
 import LoginPage from './LoginPage';
-import SingupPage from './SingupPage';
+import SignupPage from './SignupPage';
 import Dashboard from './Dashboard';
 
 type AppPage = 'login' | 'signup' | 'dashboard';
@@ -22,7 +22,7 @@ function App() {
       {currentPage === 'login' ? (
         <LoginPage onSwitchToSignup={() => setCurrentPage('signup')} onLoginSuccess={handleLoginSuccess} />
       ) : currentPage === 'signup' ? (
-        <SingupPage onSwitchToLogin={() => setCurrentPage('login')} onSignupSuccess={handleLoginSuccess} />
+        <SignupPage onSwitchToLogin={() => setCurrentPage('login')} onSignupSuccess={handleLoginSuccess} />
       ) : (
         <Dashboard onLogout={handleLogout} />
       )}
